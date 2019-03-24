@@ -15,9 +15,9 @@
     * list of currencies (DONE)
 - API call to map currencies to exchange rates (DONE)
 - Add es-lint, prettier (DONE)
-- Add Login Endpoint
 
 ## Extras
+- Add login mechanism
 - Switch up for a plan that all setting of base currency to SEK
 - Mock up e2e backend calls for greater reliability
 - Use es-lint and prettier with pre-commit hooks
