@@ -1,7 +1,7 @@
-const { buildSchema } = require('graphql');
+const { buildSchema } = require("graphql");
 
-const CountryService = require('../services/country');
-const ExchangeRateService = require('../services/exchange.rate');
+const CountryService = require("../services/country");
+const ExchangeRateService = require("../services/exchange.rate");
 
 module.exports = {
   schema: buildSchema(`
@@ -21,29 +21,30 @@ module.exports = {
 
   root: {
     country: async ({ fullName }) => {
-      const countryData = await CountryService.getCountryInformation(fullName)
-      const { name, population, currencies } = countryData[0]
-      const symbols = currencies.map(curr => curr.code)
-      const currenciesWithExchangeInEUR = await ExchangeRateService.getAllExchangeRatesAgainstEUR(symbols)
+      const countryData = await CountryService.getCountryInformation(fullName);
+      const { name, population, currencies } = countryData[0];
+      const symbols = currencies.map(curr => curr.code);
+      const currenciesWithExchangeInEUR = await ExchangeRateService.getAllExchangeRatesAgainstEUR(
+        symbols
+      );
       const curr = symbols.map(symbol => {
-
-console.log(currenciesWithExchangeInEUR.rates)
-console.log(symbol)
-console.log(currenciesWithExchangeInEUR.rates[symbol])
+        console.log(currenciesWithExchangeInEUR.rates);
+        console.log(symbol);
+        console.log(currenciesWithExchangeInEUR.rates[symbol]);
 
         return {
           code: symbol,
-          exchangeToEuro: currenciesWithExchangeInEUR.rates[symbol],
-        }
-      })
+          exchangeToEuro: currenciesWithExchangeInEUR.rates[symbol]
+        };
+      });
 
-      console.log(curr)
+      console.log(curr);
 
       return {
         fullName: name,
         population: population,
-        currencies: curr,
+        currencies: curr
       };
-    },
+    }
   }
-}
+};
