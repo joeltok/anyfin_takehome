@@ -1,10 +1,10 @@
 ## TODO
 
 - Setup express server with graphQL in local (DONE)
-- Figure out how graphQL works
-    * What is a schema
-    * What is resolver function, and how does it nest
-    * What does a graphql query look like
+- Figure out how graphQL works (DONE)
+    * What is a schema (DONE)
+    * What is a resolver function, how does it nest, and how do we pass it arguments (DONE)
+    * What does a graphql query look like (DONE)
 - Test
     * https://restcountries.eu
     * https://fixer.io
@@ -20,3 +20,4 @@
 - Move secrets into .env and environment variables
 - Add spec tests
 - Add es-lint, prettier
+- Implement server watch
