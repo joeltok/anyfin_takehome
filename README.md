@@ -8,7 +8,7 @@
 - Test
     * https://restcountries.eu (DONE)
     * https://fixer.io (DONE)
-- Prepare E2E tests using Mocha and Request promise
+- Prepare E2E tests using Mocha and Request promise (E2E)
 - API call to map countries to
     * full name
     * population
