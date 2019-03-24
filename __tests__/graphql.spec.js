@@ -1,14 +1,18 @@
 const rp = require('request-promise');
+const assert = require('assert');
 
 const uri = 'http://localhost:4000/graphql'
 
 describe('GraphQL countries list', () => {
   it ('# should return country information for the UK', (done) => {
     query = `{
-      country(name: "United Kingdom of Great Britain and Northern Ireland") {
+      country(fullName: "United Kingdom of Great Britain and Northern Ireland") {
         fullName
         population
-        currencies
+        currencies {
+          code
+          exchangeToEuro
+        }
       }
     }`
 
@@ -20,10 +24,10 @@ describe('GraphQL countries list', () => {
       },
       json: true,
     })
-    .then(data => {
-      assert.deepEqual(data, {
+    .then(qlRes => {
+      assert.deepEqual(qlRes.data.country, {
         fullName: 'United Kingdom of Great Britain and Northern Ireland',
-        population: 65110000,
+        population: '65110000',
         currencies: [
           {
             code: 'GBP',
@@ -40,10 +44,13 @@ describe('GraphQL countries list', () => {
 
   it ('# should return country information for Zimbabwe, which has multiple currencies', (done) => {
     query = `{
-      country(name: Zimbabwe) {
+      country(fullName: "Zimbabwe") {
         fullName
         population
-        currencies
+        currencies {
+          code
+          exchangeToEuro
+        }
       }
     }`
 
@@ -55,43 +62,47 @@ describe('GraphQL countries list', () => {
       },
       json: true,
     })
-    .then(data => {
-      assert.deepEqual(data, {
+    .then(qlRes => {
+      assert.deepEqual(qlRes.data.country, {
         fullName: 'Zimbabwe',
-        population: 65110000,
+        population: '14240168',
         currencies: [
+          {
+            code: 'BWP',
+            exchangeToEuro: 12.09084
+          },
           {
             code: 'GBP',
             exchangeToEuro: 0.856542
           },
           {
-            code: 'BWP',
-            exchangeToEuro: undefined
-          },
-          {
              code: 'CNY',
-             exchangeToEuro: undefined
+             exchangeToEuro: 7.605328
           },
           {
              code: 'EUR',
-             exchangeToEuro: undefined
+             exchangeToEuro: 1
           },
           {
              code: 'INR',
-             exchangeToEuro: undefined
+             exchangeToEuro: 78.30431
           },
           {
              code: 'JPY',
-             exchangeToEuro: undefined
+             exchangeToEuro: 124.440389
           },
           {
              code: 'ZAR',
-             exchangeToEuro: undefined
+             exchangeToEuro: 16.406206
           },
           {
              code: 'USD',
-             exchangeToEuro: undefined
+             exchangeToEuro: 1.132048
           },
+          {
+            code: '(none)',
+            exchangeToEuro: null
+          }
         ]
       })
       done()
@@ -103,7 +114,7 @@ describe('GraphQL countries list', () => {
 
   it ('# should throw an error for a country that does not exist', (done) => {
     query = `{
-      country(name: Heaven) {
+      country(fullName: Heaven) {
         fullName
         population
         currencies
